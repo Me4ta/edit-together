@@ -7,7 +7,7 @@ int main(void)
 {
     printf("Give me your credit card number: ");
     long long cardNumber = GetLongLong();
-    int lengthNumber = floor(log10(cardNumber)) + 1 - 1;// deleted 1 for cutting digits
+    int lengthNumber = floor(log10(cardNumber));// length of card number without 1 digit.
     long long power = pow (10, lengthNumber);
     
     int sumDigits = 0;
@@ -15,20 +15,21 @@ int main(void)
     int secondDigit = 0;
     int i = 0;
     long long curdNumberLeft = 0;
+    string typeCard = "INVALID";
     
     //check the number - delete
-    printf("Your card is %lld and length is %lld\n", cardNumber, power);
+    //printf("Your card is %lld and length is %lld\n", cardNumber, power);
     curdNumberLeft = cardNumber; //restuta is cool, love him - I love him already )))
-    for (i = 0; i <= lengthNumber; i++)
+    for (i = 0; i <= (lengthNumber + 1); i = i + 2)
     {
         firstDigit = curdNumberLeft/power;
-        printf("%i\n", firstDigit);
+        printf("%i", firstDigit);
         curdNumberLeft = curdNumberLeft - firstDigit * power;
         power = power/10;
         if (power >= 10)
         {
             secondDigit = curdNumberLeft/power;
-            printf("%i\n", secondDigit);
+            printf("%i", secondDigit);
             curdNumberLeft = curdNumberLeft - secondDigit * power;
             secondDigit = secondDigit * 2;
             power = power/10;
@@ -37,40 +38,22 @@ int main(void)
         }
         else
             secondDigit = 0;
+        if (i == 0)
+        {
+            if (firstDigit == 3 && (secondDigit == 4 || secondDigit == 7))
+                typeCard = "AMEX";
+            if (firstDigit == 5 && secondDigit > 0 && secondDigit < 6)
+                typeCard = "MASTERCARD";
+            if (firstDigit == 4)
+                typeCard = "VISA";
+        }
         sumDigits = sumDigits + firstDigit + secondDigit;
-        printf("Sum is %i\n", sumDigits);
     }
-    printf("Sum is %i\n", sumDigits);
     
-    
-    
-    //это старый первый вариант. не читай
-    /**
-    *convert to char
-    *char cnumber[256];
-    *sprintf(cnumber, "%lld",inumber);
-    
-    *int s = 0;
-    *int doublenumber = 0;
-    *
-    
-    *int d = 0.0;
-    *for (int i = 0; i < 16; i++)
-    *{
-    *    printf("%c ", cnumber[i]);
-    *    if (cnumber[i] >= 49)
-    *    {
-    *        doublenumber = (cnumber[i]-'0') * 2;
-    *        //if (doublenumber > 9)
-    *        {
-    *            //doublenumber = doublenumber[0]+doublenumber[1];
-    *            d = doublenumber;
-    *            //d = d / 10.0 + d % 10.0;
-    *        }
-    *        printf("is %i ", doublenumber);
-    *        s = s + doublenumber;
-    *        printf("Sum is %i\n", s);
-    *    }
-    *}*/
+    if (sumDigits % 10 > 0)
+       typeCard = "INVALID";
+    //printf("   Sum is %i\n", sumDigits);
+    printf(" is %s\n", typeCard);
+
     
 }
