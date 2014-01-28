@@ -3,8 +3,14 @@
 
 int main(void)
 {
-    printf("Input a non-negative integer no greater than 23: ");
-    int pyramidsHeight = GetInt();
+    int pyramidsHeight;
+    
+    do
+    {
+        printf("Input a non-negative integer no greater than 23: ");
+        pyramidsHeight = GetInt();
+    }
+    while (pyramidsHeight < 0 || pyramidsHeight > 23);
     
     for (int i = 0; i < pyramidsHeight; i++)
     {
